@@ -1,7 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { loadModules } from 'esri-loader'
+import { faker } from '@faker-js/faker'
 
-function AddLocation({ view }) {
+function AddLocation({ view, map }) {
+  // console.log(view.map.findLayerById(1))
+  // const foundLayer = map.allLayers
+  console.log(map.layers.items[0])
   const addLocationDiv = useRef(null)
   const [point, setPoint] = useState({
     title: '',
@@ -14,8 +18,8 @@ function AddLocation({ view }) {
     view.on('click', (e) => {
       const { latitude, longitude } = e.mapPoint
       let newPoint = { ...point }
-      newPoint.x = latitude
-      newPoint.y = longitude
+      newPoint.x = longitude
+      newPoint.y = latitude
       setPoint(newPoint)
     })
   }, [])
@@ -55,37 +59,45 @@ function AddLocation({ view }) {
       id='add-location'
       className='esri-widget'
       ref={addLocationDiv}
-      style={{ padding: 10 }}
+      style={{ padding: 10, display: 'flex', flexFlow: 'wrap', width: '40vw' }}
     >
       <input
         type='text'
         placeholder='Title'
         className='esri-input'
-        style={{ margin: 5 }}
+        style={{ margin: '5px', flex: 1, width: '100%' }}
         value={point.title}
         name='title'
         onChange={handleChange}
       />
       <br />
-      <textarea
+      <input
         type='text'
         name='details'
         placeholder='Details'
         className='esri-input'
-        style={{ margin: 5 }}
+        style={{ margin: '5px', flex: 1, width: '100%' }}
         value={point.details}
-        cols={19}
         onChange={handleChange}
-      ></textarea>
+      />
       <br />
-      <span style={{ margin: 5 }}>X: {point.x}</span>
-      <br />
-      <span style={{ margin: 5 }}>Y: {point.y}</span>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          marginTop: '5px',
+          marginLeft: '5px',
+          width: '100%',
+        }}
+      >
+        <span>X: {point.x}</span>
+        <span>Y: {point.y}</span>
+      </div>
       <input
         type='button'
         value='Add Location'
         className='esri-button'
-        style={{ margin: 5, width: '95%' }}
+        style={{ margin: 5, width: '100%' }}
         onClick={handleAddLocation}
       />
     </div>

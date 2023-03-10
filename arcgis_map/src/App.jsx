@@ -4,6 +4,7 @@ import { Map } from '@esri/react-arcgis'
 import Locations from './Locations'
 import AddLocation from './AddLocation'
 import Widgets from './Widgets'
+import AddRandomLocations from './AddRandomLocations'
 
 function App() {
   const mapProps = {
@@ -24,6 +25,7 @@ function App() {
         <Locations />
         <AddLocation />
         <Widgets />
+        <AddRandomLocations />
       </Map>
     </div>
   )
