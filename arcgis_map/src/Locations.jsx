@@ -63,7 +63,6 @@ function Locations({ view, map }) {
             symbol: geosAndSymbols2.sym,
           }),
         })
-        // layer.graphics.add
         map.layers.addMany([layer, layer2])
         // view.map.layers.add(layer)
         // view.graphics.addMany(graphics)

@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { loadModules } from 'esri-loader'
 import { faker } from '@faker-js/faker'
-
-function AddRandomLocations({ map, view }) {
+import './App.css'
+import { Link } from 'react-router-dom'
+function AddRandomLocations({ map, view, setCountryState }) {
   const addRandomLocationDiv = useRef(null)
   const [country, setCountry] = useState({
     name: '',
     time_zone: '',
   })
+
   const locations = []
   for (let index = 0; index < 10; index++) {
     locations.push({
@@ -59,6 +61,10 @@ function AddRandomLocations({ map, view }) {
             title: location.name,
             content: location.time_zone,
           },
+          popupTemplate: {
+            title: location.name,
+            content: location.time_zone,
+          },
         })
       })
       let myGraph = new Graphic({
@@ -76,19 +82,14 @@ function AddRandomLocations({ map, view }) {
       view.on('click', (event) => {
         view.hitTest(event).then((response) => {
           if (response.results.length > 0) {
-            // console.log('resp', response.results[0].graphic.attributes)
             setCountry({
               name: response.results[0].graphic.attributes.title,
               time_zone: response.results[0].graphic.attributes.content,
             })
-            view.ui.add(addRandomLocationDiv.current, 'top-left')
+            view.ui.add(addRandomLocationDiv.current, 'bottom-left')
           }
         })
       })
-
-      console.log('random graph', randomGraphics)
-      console.log('random layer', randomLayer)
-      // randomLayer.addMany(randomGraphics)
       map.layers.add(randomLayer)
     })
   }, [])
@@ -100,12 +101,25 @@ function AddRandomLocations({ map, view }) {
         padding: 10,
         display: 'flex',
         flexDirection: 'column',
-        width: '20vw',
+        minWidth: '24vw',
         boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
       }}
     >
       <p className='esri-widget__heading'>{country.name}</p>
       <p className='esri-widget__heading'>{country.time_zone}</p>
+      <Link to='/details'>
+        <p
+          className='more-details'
+          onClick={() => {
+            setCountryState({
+              name: country.name,
+              time_zone: country.time_zone,
+            })
+          }}
+        >
+          More Detailes...
+        </p>
+      </Link>
     </div>
   )
 }

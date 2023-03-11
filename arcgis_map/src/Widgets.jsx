@@ -6,7 +6,8 @@ function Widgets({ view }) {
       'esri/widgets/Home',
       'esri/widgets/BasemapToggle',
       'esri/widgets/ScaleBar',
-    ]).then(([Home, BasemapToggle, scaleBar]) => {
+      'esri/widgets/Search',
+    ]).then(([Home, BasemapToggle, scaleBar, Search]) => {
       let homeWidget = new Home({
         view: view,
       })
@@ -17,9 +18,13 @@ function Widgets({ view }) {
       let scaleBarWidget = new scaleBar({
         view: view,
       })
+      let SearchWidget = new Search({
+        view: view,
+      })
       view.ui.add(homeWidget, 'top-left')
       view.ui.add(basemapToggleWidget, 'bottom-right')
-      view.ui.add(scaleBarWidget, 'bottom-left')
+      view.ui.add(SearchWidget, 'top-right')
+      // view.ui.add(scaleBarWidget, 'bottom-left')
     })
   }, [])
   return null
